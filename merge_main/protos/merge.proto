@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message Config {
+    message Rotation {
+        string doc_id = 1;
+        int32 rotation = 2;
+    }
+
+    repeated string doc_order = 1;
+    repeated Rotation rotation = 2;
+}
+
+message PDFMergeRequest {
+    repeated string doc_ids = 1;
+    string process_tag = 2;
+    Config config = 3;
+}
+
+message PDFMergeResponse {
+    repeated string doc_ids = 1;
+}
+
+service merge {
+    rpc Merge(PDFMergeRequest) returns (PDFMergeResponse){}
+}
+
+// python -m grpc_tools.protoc -I. --python_out=./grpc_generated_file --grpc_python_out=./grpc_generated_file merge.proto
