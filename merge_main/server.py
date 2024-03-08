@@ -1,11 +1,11 @@
 from concurrent import futures
+import os
 import logging
 
 import grpc
 from grpc_generated_file import merge_pb2, merge_pb2_grpc
 from service.merge import merge_pdfs
-import os
-
+import configparser
 
 class MergeServicer(merge_pb2_grpc.mergeServicer):
     def Merge(self, request, context):
@@ -25,7 +25,9 @@ class MergeServicer(merge_pb2_grpc.mergeServicer):
 
 def serve():
     os.makedirs("downloads", exist_ok=True)
-    port = "50051"
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    port = config["port_settings"]["grpc_port"]
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     merge_pb2_grpc.add_mergeServicer_to_server(MergeServicer(), server)
     server.add_insecure_port("[::]:" + port)
