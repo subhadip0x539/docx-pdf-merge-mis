@@ -1,6 +1,7 @@
 from concurrent import futures
 import os
 import logging
+import asyncio
 
 import grpc
 from grpc_generated_file import merge_pb2, merge_pb2_grpc
@@ -23,19 +24,19 @@ class MergeServicer(merge_pb2_grpc.mergeServicer):
         return response
 
 
-def serve():
+async def serve():
     os.makedirs("downloads", exist_ok=True)
     config = configparser.ConfigParser()
     config.read("config.ini")
     port = config["port_settings"]["grpc_port"]
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.aio.server()
     merge_pb2_grpc.add_mergeServicer_to_server(MergeServicer(), server)
     server.add_insecure_port("[::]:" + port)
-    server.start()
+    await server.start()
     print("Server started, listening on " + port)
-    server.wait_for_termination()
+    await server.wait_for_termination()
 
 
 if __name__ == "__main__":
     logging.basicConfig()
-    serve()
+    asyncio.run(serve())
