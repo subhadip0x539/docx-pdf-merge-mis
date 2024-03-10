@@ -13,7 +13,7 @@ async def callback(message):
 
 
 async def main():
-    connection = await connect("amqp://guest:guest@localhost/")
+    connection = await connect("amqp://guest:guest@0.0.0.0/")
     async with connection:
         # Creating a channel
         channel = await connection.channel()
