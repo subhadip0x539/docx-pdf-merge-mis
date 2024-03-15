@@ -8,10 +8,6 @@ COPY . /merge_main
 
 RUN apt-get update -y
 
-RUN apt-get install build-essential -y
-
 RUN pip install -r requirements.txt
-
-EXPOSE 50051
 
 CMD ["python","server.py"]

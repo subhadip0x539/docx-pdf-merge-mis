@@ -1,0 +1,31 @@
+services:
+  queue_guard:
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    container_name: queue_guard
+    build: ./queue_guard
+    image: queue_guard:latest
+    expose:
+      - 1424
+    ports:
+        - 1424:1424
+
+  merge_main:
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: always
+    container_name: merge_main
+    build: ./merge_main
+    image: merge_main:latest
+    expose:
+       - 50051
+    ports:
+      - 50051:50051
+    depends_on:
+      - queue_guard
+
+networks:
+  default:
+    name: docx-bridge
+    driver: bridge

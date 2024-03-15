@@ -8,8 +8,6 @@ COPY . /queue_guard
 
 RUN apt-get update -y
 
-RUN apt-get install build-essential -y
-
 RUN pip install -r requirements.txt
 
 CMD ["python","server_rpc.py"]

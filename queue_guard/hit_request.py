@@ -2,7 +2,7 @@ import grpc
 from grpc_generated_file import merge_pb2, merge_pb2_grpc
 
 async def run(json_data):
-    async with grpc.aio.insecure_channel("localhost:50051") as channel:
+    async with grpc.aio.insecure_channel("0.0.0.0:50051") as channel:
         stub = merge_pb2_grpc.mergeStub(channel)
         request = merge_pb2.PDFMergeRequest()
         request.doc_ids.extend(json_data["docIds"])
