@@ -12,4 +12,6 @@ RUN apt-get install build-essential -y
 
 RUN pip install -r requirements.txt
 
+EXPOSE  1424
+
 CMD ["python","server_rpc.py"]

@@ -161,3 +161,5 @@ cython_debug/
 
 
 merge_main/downloads
+merge_main/client.py
+queue_guard/client_rpc.py
